@@ -16,7 +16,7 @@ cam = cv2.VideoCapture(1)
 
 while True:
     result, img = cam.read()
-    cv2.imshow('my webcam', displayAnalysis(img,emotion_detector))
+    cv2.imshow('my webcam', displayAnalysis(img,emotion_detector,last_emotion_data))
     if cv2.waitKey(1) == 27: 
         break  # esc to quit
         

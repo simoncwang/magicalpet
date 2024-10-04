@@ -31,6 +31,7 @@ def captureImage():
 def displayAnalysis(img, emotion_detector, last_emotion_data):
     # analyzing the emotions in the image including bounding box
     analysis = emotion_detector.detect_emotions(img)
+    
 
     if analysis:
         # getting the dominant emotion and its score
