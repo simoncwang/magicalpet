@@ -55,6 +55,8 @@ def displayAnalysis(img, emotion_detector, last_emotion_data):
             elif dominant_emotion != "neutral":
                 print("Sad")
                 arduino.write(str.encode('1'))
+            else:
+                print("Neutral")
 
         else:
             # Keep the last emotion if 20 seconds haven't passed
