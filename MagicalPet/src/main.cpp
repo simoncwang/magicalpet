@@ -22,11 +22,11 @@ void loop() {
 
     if (data == '0') {
       right_open();
-      delay(500);
+      delay(15000);
       right_close();
     } else if (data == '1') {
       left_open();
-      delay(500);
+      delay(15000);
       left_close();
     } else {
       Serial.println("Invalid input");
