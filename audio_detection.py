@@ -1,9 +1,19 @@
 from openai import OpenAI
 import sounddevice as sd
 from scipy.io.wavfile import write
+import serial
+import time
+import platform
 
 fs = 44100  # Sample rate
 seconds = 3  # Duration of recording
+
+# initialize the serial port for the Arduino based on the operating system
+if platform.system() == "Darwin":  # macOS
+    arduino = serial.Serial(port='/dev/cu.usbserial-0001', baudrate=9600)
+elif platform.system() == "Windows":  # Windows
+    arduino = serial.Serial(port='COM3', baudrate=9600)
+time.sleep(2)
 
 myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
 sd.wait()  # Wait until recording is finished
@@ -38,6 +48,14 @@ completion = client.chat.completions.create(
 )
 
 print(completion.choices[0].message.content)
+
+if (completion.choices[0].message.content == "positive"):
+  print("You are feeling positive.")
+  arduino.write(str.encode('0'))
+
+elif (completion.choices[0].message.content == "negative"):
+  print("You are feeling negative.")
+  arduino.write(str.encode('1'))
 
 # f = open("output.txt", "w")
 # f.write(transcription)
