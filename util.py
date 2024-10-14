@@ -32,7 +32,7 @@ def captureImage():
 def displayAnalysis(img, emotion_detector, last_emotion_data):
 
     # initializing the serial port for the arduino
-    arduino = serial.Serial(port = 'COM3', baudrate = 9600)
+    arduino = serial.Serial(port = '/dev/cu.usbserial-0001', baudrate = 9600)
     time.sleep(2)
 
     # analyzing the emotions in the image including bounding box
