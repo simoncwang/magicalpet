@@ -3,3 +3,6 @@ pyserial
 opencv-python
 fer
 tensorflow
+openai
+sounddevice
+scipy

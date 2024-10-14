@@ -27,7 +27,7 @@ completion = client.chat.completions.create(
         "content": [
             {
             "type": "text",
-            "text": "Based on the following text, am I feeling positive, negative, or neutral?"
+            "text": "Based on the following text, am I feeling positive, negative, or neutral? Give me a one word phrase that is all lower case with no punctuation"
             },
             {
             "type": "text",

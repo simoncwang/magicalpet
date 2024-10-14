@@ -7,6 +7,8 @@ os.environ["IMAGEIO_FFMPEG_EXE"] = "/Users/simon/anaconda3/envs/mlproj/lib/pytho
 from fer import FER
 import time
 import serial
+import platform
+
 
 
 def captureImage():
