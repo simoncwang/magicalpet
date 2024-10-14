@@ -1,8 +1,14 @@
 #include <Arduino.h>
 
-int pos = 0;
+int pos = 90;
 int servoPin = 13;
+int data;
 void angle(int a);
+
+void right_open();
+void left_open();
+void left_close();
+void right_close();
 
 void setup() {
   // put your setup code here, to run once:
@@ -11,13 +17,41 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  for (pos = 0; pos < 180; pos += 1) {
+  while (Serial.available()) {
+    data = Serial.read();
+
+    if (data == '0') {
+      right_open();
+    } else if (data == '2') {
+      left_open();
+    } else if (data == '3') {
+      left_close();
+    } else if (data == '1') {
+      right_close();
+    }
+  }
+}
+
+void right_open() {
+  for (pos = 90; pos >= 0; pos -= 1) {
     angle(pos);
   }
-  
+}
 
-  for (pos = 180; pos > 0; pos -=1) {
+void left_open() {
+  for (pos = 90; pos <= 180; pos += 1) {
+    angle(pos);
+  }
+}
+
+void left_close() {
+  for (pos = 180; pos >= 90; pos -= 1) {
+    angle(pos);
+  }
+}
+
+void right_close() {
+  for (pos = 0; pos <= 90; pos += 1) {
     angle(pos);
   }
 }
