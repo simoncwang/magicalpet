@@ -2,3 +2,4 @@ argparse
 pyserial
 opencv-python
 fer
+tensorflow

@@ -1,7 +1,7 @@
 import serial
 import time
 
-arduino = serial.Serial(port = 'COM3', baudrate = 9600)
+arduino = serial.Serial(port = '/dev/cu.usbserial-0001', baudrate = 9600)
 time.sleep(2)
 
 
