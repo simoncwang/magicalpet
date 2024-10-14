@@ -1,7 +1,7 @@
 # using FER library to continuously detect emotions in a live feed
 
 import cv2
-from util import *
+from video_helper import *
 
 
 # using MTCNN (multi task cascaded CNN)
