@@ -6,6 +6,7 @@ import os
 os.environ["IMAGEIO_FFMPEG_EXE"] = "/Users/simon/anaconda3/envs/mlproj/lib/python3.11/site-packages/ffmpeg"
 from fer import FER
 import time
+import serial
 
 
 def captureImage():
@@ -29,6 +30,11 @@ def captureImage():
         print("image read error")
 
 def displayAnalysis(img, emotion_detector, last_emotion_data):
+
+    # initializing the serial port for the arduino
+    arduino = serial.Serial(port = 'COM3', baudrate = 9600)
+    time.sleep(2)
+
     # analyzing the emotions in the image including bounding box
     analysis = emotion_detector.detect_emotions(img)
     
@@ -42,6 +48,14 @@ def displayAnalysis(img, emotion_detector, last_emotion_data):
             # Update the current emotion after 20 seconds
             last_emotion_data["emotion"] = dominant_emotion
             last_emotion_data["last_update"] = time.time()
+
+            if dominant_emotion == "happy":
+                print("Happy")
+                arduino.write(str.encode('0'))
+            elif dominant_emotion != "neutral":
+                print("Sad")
+                arduino.write(str.encode('1'))
+
         else:
             # Keep the last emotion if 20 seconds haven't passed
             dominant_emotion = last_emotion_data["emotion"]

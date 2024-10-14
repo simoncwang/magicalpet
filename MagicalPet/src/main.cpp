@@ -22,12 +22,14 @@ void loop() {
 
     if (data == '0') {
       right_open();
-    } else if (data == '2') {
-      left_open();
-    } else if (data == '3') {
-      left_close();
-    } else if (data == '1') {
+      delay(500);
       right_close();
+    } else if (data == '1') {
+      left_open();
+      delay(500);
+      left_close();
+    } else {
+      Serial.println("Invalid input");
     }
   }
 }
