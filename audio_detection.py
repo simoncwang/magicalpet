@@ -75,7 +75,7 @@ ai_response = response.choices[0].message.content
 speech_file_path = "speech.mp3"
 response = client.audio.speech.create(
   model="tts-1",
-  voice="alloy",
+  voice="fable",
   input=ai_response
 )
 
