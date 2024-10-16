@@ -4,6 +4,7 @@ import time
 import platform
 import os
 from openai import OpenAI
+from pathlib import Path
 from scipy.io.wavfile import write
 from dotenv import load_dotenv
 
@@ -54,12 +55,38 @@ completion = client.chat.completions.create(
   ]
 )
 
-print(completion.choices[0].message.content)
+patient_mood = completion.choices[0].message.content # Get the response from the AI
 
-if (completion.choices[0].message.content == "positive"):
+response = client.chat.completions.create(
+  model="gpt-4o",
+  messages=[
+    {"role": "system", "content": "You are a counselor. Encourage the patient with positive words if they are feeling negative. Otherwise, encourage them to keep up the good energy if they feel positive."},
+    {"role": "user",
+        "content": [
+            {
+            "type": "text",
+            "text": transcription
+            }
+        ]}
+  ]
+)
+
+ai_response = response.choices[0].message.content
+speech_file_path = "speech.mp3"
+response = client.audio.speech.create(
+  model="tts-1",
+  voice="alloy",
+  input=ai_response
+)
+
+response.stream_to_file(speech_file_path)
+
+print("patient mood: ", patient_mood)
+
+if (patient_mood == "positive"):
   print("You are feeling positive.")
   arduino.write(str.encode('0'))
 
-elif (completion.choices[0].message.content == "negative"):
+elif (patient_mood == "negative"):
   print("You are feeling negative.")
   arduino.write(str.encode('1'))
