@@ -15,7 +15,7 @@ load_dotenv()
 api_key = os.getenv('API_KEY')
 
 fs = 44100  # Sample rate
-seconds = 10  # Duration of recording
+seconds = 3  # Duration of recording
 
 # initialize the serial port for the Arduino based on the operating system
 if platform.system() == "Darwin":  # macOS
@@ -60,7 +60,7 @@ patient_mood = completion.choices[0].message.content # Get the response from the
 response = client.chat.completions.create(
   model="gpt-4o",
   messages=[
-    {"role": "system", "content": "You are a counselor. Encourage the patient with positive words if they are feeling negative. Otherwise, encourage them to keep up the good energy if they feel positive."},
+    {"role": "system", "content": "You are a counselor. Encourage the patient in 1 sentence with positive words if they are feeling negative. Otherwise, encourage them in 1 sentence to keep up the good energy if they feel positive."},
     {"role": "user",
         "content": [
             {
