@@ -1,15 +1,13 @@
 from cv2 import VideoCapture,imshow,imwrite,waitKey,destroyAllWindows
 from cv2 import *
-import cv2
-import os
-# fixing the path for ffmpeg
-os.environ["IMAGEIO_FFMPEG_EXE"] = "/Users/simon/anaconda3/envs/mlproj/lib/python3.11/site-packages/ffmpeg"
 from fer import FER
 import time
 import serial
 import platform
+import cv2
+import os
 
-
+os.environ["IMAGEIO_FFMPEG_EXE"] = "/Users/simon/anaconda3/envs/mlproj/lib/python3.11/site-packages/ffmpeg"
 
 def captureImage():
     # number of frames to ramp up before taking final picture
@@ -43,7 +41,6 @@ def displayAnalysis(img, emotion_detector, last_emotion_data):
     # analyzing the emotions in the image including bounding box
     analysis = emotion_detector.detect_emotions(img)
     
-
     if analysis:
         # getting the dominant emotion and its score
         dominant_emotion, emotion_score = emotion_detector.top_emotion(img)

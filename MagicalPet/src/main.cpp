@@ -11,7 +11,6 @@ void left_close();
 void right_close();
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(servoPin, OUTPUT);
 }
@@ -59,7 +58,6 @@ void right_close() {
 }
 
 void angle(int a) {
-  // map (x, fromA, toA, fromB, toB);
   int pulseWidth = map(a, 0, 180, 500, 2600);
   digitalWrite(servoPin, HIGH);
   delayMicroseconds(pulseWidth);

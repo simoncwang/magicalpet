@@ -1,12 +1,10 @@
-# using FER library to continuously detect emotions in a live feed
-
 import cv2
 from video_helper import *
 
 
 # using MTCNN (multi task cascaded CNN)
 # MTCNN detects faces and facial landmarks on images
-emotion_detector = FER(mtcnn=True)   # NOTE: setting this to false uses Haar
+emotion_detector = FER(mtcnn=True)  
 
 # Initialize last emotion data to hold the emotion and last update time
 last_emotion_data = {"emotion": "neutral", "last_update": time.time()}
@@ -33,7 +31,3 @@ while True:
 
 cam.release()
 cv2.destroyAllWindows()
-
-
-# # saving the image
-# imwrite("image.png", img)

@@ -3,6 +3,7 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+.env
 MagicalPet/bin/
 MagicalPet/lib/
 MagicalPet/pyvenv.cfg
