@@ -48,20 +48,20 @@ void right_open() {
   }
 }
 
+void right_close() {
+  for (pos = 45; pos <= 90; pos += 1) {
+    angle(pos);
+  }
+}
+
 void left_open() {
-  for (pos = 135; pos <= 180; pos += 1) {
+  for (pos = 90; pos <= 135 ; pos += 1) {
     angle(pos);
   }
 }
 
 void left_close() {
-  for (pos = 180; pos >= 135; pos -= 1) {
-    angle(pos);
-  }
-}
-
-void right_close() {
-  for (pos = 45; pos <= 90; pos += 1) {
+  for (pos = 135; pos >= 90; pos -= 1) {
     angle(pos);
   }
 }
