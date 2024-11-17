@@ -1,5 +1,9 @@
 #include <Arduino.h>
 
+// Define GPIO pins for the buttons
+#define BUTTON_1_PIN 25  // GPIO for Button 1
+#define BUTTON_2_PIN 23  // GPIO for Button 2
+
 int pos = 90;
 int servoPin = 13;
 int data;
@@ -36,9 +40,30 @@ void setup() {
   pinMode(motorPin2, OUTPUT);
   pinMode(motorPin3, OUTPUT);
   pinMode(motorPin4, OUTPUT);
+
+  // Set up both button pins as input with built-in pull-up resistors
+  pinMode(BUTTON_1_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_2_PIN, INPUT_PULLUP);
 }
 
 void loop() {
+  // Read the states of both buttons
+  int button1State = digitalRead(BUTTON_1_PIN);
+  int button2State = digitalRead(BUTTON_2_PIN);
+
+  // Check Button 1
+  if (button1State == LOW) {  // Button 1 is pressed (active low)
+    Serial.println("1");  // Send "1" when Button 1 is pressed
+  }
+
+  // Check Button 2
+  if (button2State == LOW) {  // Button 2 is pressed (active low)
+    Serial.println("2");  // Send "2" when Button 2 is pressed
+  }
+
+  // Short delay for debouncing
+  delay(100);  // Prevent multiple triggers due to button bounce
+
   while (Serial.available()) {
     data = Serial.read();
 
@@ -49,7 +74,7 @@ void loop() {
       stopMotor();
       right_open();
       digitalWrite(greenPin, HIGH); // set the LED on
-      delay(15000);
+      delay(7000);
       right_close();
       moveBackward();
       delay(5000);
@@ -62,7 +87,7 @@ void loop() {
       stopMotor();
       left_open();
       digitalWrite(redPin, HIGH); // set the LED on
-      delay(15000);
+      delay(7000);
       left_close();
       moveForward();
       delay(5000);
@@ -155,4 +180,32 @@ void stopMotor() {
 // delay(5000); // wait for 5 second
 // digitalWrite(greenPin, LOW); // set the LED off
 // delay(5000); // wait for 5 second
+// }
+
+// void setup() {
+//   // Start the serial monitor at 9600 baud rate
+//   Serial.begin(9600);
+
+//   // Set up both button pins as input with built-in pull-up resistors
+//   pinMode(BUTTON_1_PIN, INPUT_PULLUP);
+//   pinMode(BUTTON_2_PIN, INPUT_PULLUP);
+// }
+
+// void loop() {
+//   // Read the states of both buttons
+//   int button1State = digitalRead(BUTTON_1_PIN);
+//   int button2State = digitalRead(BUTTON_2_PIN);
+
+//   // Check Button 1
+//   if (button1State == LOW) {  // Button 1 is pressed (active low)
+//     Serial.println("1");  // Send "1" when Button 1 is pressed
+//   }
+
+//   // Check Button 2
+//   if (button2State == LOW) {  // Button 2 is pressed (active low)
+//     Serial.println("2");  // Send "2" when Button 2 is pressed
+//   }
+
+//   // Short delay for debouncing
+//   delay(100);  // Prevent multiple triggers due to button bounce
 // }
