@@ -134,16 +134,16 @@ void angle(int a) {
 
 // Function to move motor forward
 void moveForward() {
-  digitalWrite(motorPin1, HIGH);
-  digitalWrite(motorPin2, LOW);
+  digitalWrite(motorPin1, LOW);
+  digitalWrite(motorPin2, HIGH);
   digitalWrite(motorPin3, HIGH);
   digitalWrite(motorPin4, LOW);
   Serial.println("Moving forward");
 }
 
 void moveBackward() {
-  digitalWrite(motorPin1, LOW);
-  digitalWrite(motorPin2, HIGH);
+  digitalWrite(motorPin1, HIGH);
+  digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin3, LOW);
   digitalWrite(motorPin4, HIGH);
   Serial.println("Moving backward");
