@@ -22,10 +22,13 @@ if platform.system() == "Darwin":  # macOS
     arduino = serial.Serial(port='/dev/cu.usbserial-0001', baudrate=9600)
 elif platform.system() == "Windows":  # Windows
     arduino = serial.Serial(port='COM3', baudrate=9600)
-time.sleep(2)
+
+start = time.time()
 
 myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
 sd.wait()  # Wait until recording is finished
+
+end = time.time()
 write('output.wav', fs, myrecording)  # Save as WAV file
 
 client = OpenAI(api_key=api_key)
