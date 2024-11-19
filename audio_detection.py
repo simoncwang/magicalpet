@@ -7,6 +7,7 @@ from openai import OpenAI
 from pathlib import Path
 from scipy.io.wavfile import write
 from dotenv import load_dotenv
+from playsound import playsound
 
 # Load the .env file
 load_dotenv()
@@ -23,12 +24,8 @@ if platform.system() == "Darwin":  # macOS
 elif platform.system() == "Windows":  # Windows
     arduino = serial.Serial(port='COM3', baudrate=9600)
 
-start = time.time()
-
 myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
 sd.wait()  # Wait until recording is finished
-
-end = time.time()
 write('output.wav', fs, myrecording)  # Save as WAV file
 
 client = OpenAI(api_key=api_key)
@@ -93,3 +90,5 @@ if (patient_mood == "positive"):
 elif (patient_mood == "negative"):
   print("You are feeling negative.")
   arduino.write(str.encode('1'))
+
+playsound(speech_file_path)
