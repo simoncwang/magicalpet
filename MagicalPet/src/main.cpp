@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
 
 // Define GPIO pins for the buttons
 #define BUTTON_1_PIN 25  // GPIO for Button 1
@@ -9,9 +10,6 @@ int servoPin = 13;
 int data;
 void angle(int a);
 
-const int redPin = 32; 
-const int greenPin = 33; 
-
 // Pins for wheels
 // Original Pins
 const int motorPin1 = 18;  // IN1 (GPIO 18)
@@ -21,6 +19,11 @@ const int motorPin2 = 19;  // IN2 (GPIO 19)
 const int motorPin3 = 16;  // IN1 (GPIO 18)
 const int motorPin4 = 17;  // IN2 (GPIO 19)
 
+// NeoPixel setup
+#define LED_PIN 14          // Pin connected to NeoPixel data input
+#define NUM_LEDS 42         // Number of LEDs in the strip
+Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRBW + NEO_KHZ800);
+
 void right_open();
 void left_open();
 void left_close();
@@ -28,12 +31,13 @@ void right_close();
 void moveForward();
 void moveBackward();
 void stopMotor();
+void displayRainbow();
+void displayRed();
+void clearLEDs();
 
 void setup() {
   Serial.begin(9600);
   pinMode(servoPin, OUTPUT);
-  pinMode(redPin, OUTPUT);
-  pinMode(greenPin, OUTPUT);
 
   // Set the motor control pins as outputs
   pinMode(motorPin1, OUTPUT);
@@ -44,6 +48,10 @@ void setup() {
   // Set up both button pins as input with built-in pull-up resistors
   pinMode(BUTTON_1_PIN, INPUT_PULLUP);
   pinMode(BUTTON_2_PIN, INPUT_PULLUP);
+
+  // Initialize NeoPixel strip
+  strip.begin();
+  strip.show(); // Initialize all LEDs to "off"
 }
 
 void loop() {
@@ -69,34 +77,61 @@ void loop() {
 
     if (data == '0') {
       // Reacting for happy emotion
+      displayRainbow();            // Display rainbow animation
       moveForward();
       delay(5000);
       stopMotor();
       right_open();
-      digitalWrite(greenPin, HIGH); // set the LED on
       delay(7000);
       right_close();
       moveBackward();
       delay(5000);
       stopMotor();
-      digitalWrite(greenPin, LOW); // set the LED off
+      clearLEDs();
     } else if (data == '1') {
       // Reacting for negative emotion
+      displayRed();               // Display red LEDs
       moveBackward();
       delay(5000);
       stopMotor();
       left_open();
-      digitalWrite(redPin, HIGH); // set the LED on
       delay(7000);
       left_close();
       moveForward();
       delay(5000);
       stopMotor();
-      digitalWrite(redPin, LOW); // set the LED off
+      clearLEDs();
     } else {
       Serial.println("Invalid input");
     }
   }
+}
+
+// Function to display a rainbow animation
+void displayRainbow() {
+  for (int j = 0; j < 256; j++) {  // Cycle through colors
+    for (int i = 0; i < strip.numPixels(); i++) {
+      int pixelHue = (i * 65536L / strip.numPixels() + j * 256) & 65535;
+      strip.setPixelColor(i, strip.ColorHSV(pixelHue)); // Set rainbow colors
+    }
+    strip.show();
+    delay(20);  // Adjust speed of the animation
+  }
+}
+
+// Function to display all LEDs in red
+void displayRed() {
+  for (int i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, strip.Color(255, 0, 0)); // Red color
+  }
+  strip.show();
+}
+
+void clearLEDs() {
+  for (int i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, strip.Color(0, 0, 0)); // Turn off the LED
+  }
+  strip.show();
 }
 
 void right_open() {
@@ -156,56 +191,3 @@ void stopMotor() {
   digitalWrite(motorPin4, LOW);
   Serial.println("Stopped");
 }
-
-// #include <Arduino.h>
-// constants definition
-// const int redPin = 32; // Default LED is connected to GPIO 23
-// const int greenPin = 33; // Default LED is connected to GPIO 23
-// The setup() method runs once, when the sketch starts
-// void setup() {
-// // initialize the digital pin as an output:
-// pinMode(redPin, OUTPUT);
-// pinMode(greenPin, OUTPUT);
-// }
-// the loop() method runs over and over again,
-// as long as the Arduino has power
-// void loop()
-// {
-// digitalWrite(redPin, HIGH); // set the LED on
-// delay(5000); // wait for 5 second
-// digitalWrite(redPin, LOW); // set the LED off
-// delay(5000); // wait for 5 second
-
-// digitalWrite(greenPin, HIGH); // set the LED on
-// delay(5000); // wait for 5 second
-// digitalWrite(greenPin, LOW); // set the LED off
-// delay(5000); // wait for 5 second
-// }
-
-// void setup() {
-//   // Start the serial monitor at 9600 baud rate
-//   Serial.begin(9600);
-
-//   // Set up both button pins as input with built-in pull-up resistors
-//   pinMode(BUTTON_1_PIN, INPUT_PULLUP);
-//   pinMode(BUTTON_2_PIN, INPUT_PULLUP);
-// }
-
-// void loop() {
-//   // Read the states of both buttons
-//   int button1State = digitalRead(BUTTON_1_PIN);
-//   int button2State = digitalRead(BUTTON_2_PIN);
-
-//   // Check Button 1
-//   if (button1State == LOW) {  // Button 1 is pressed (active low)
-//     Serial.println("1");  // Send "1" when Button 1 is pressed
-//   }
-
-//   // Check Button 2
-//   if (button2State == LOW) {  // Button 2 is pressed (active low)
-//     Serial.println("2");  // Send "2" when Button 2 is pressed
-//   }
-
-//   // Short delay for debouncing
-//   delay(100);  // Prevent multiple triggers due to button bounce
-// }
