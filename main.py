@@ -41,7 +41,18 @@ def run_detection(mode):
 def main():
     while True:
         if ser.in_waiting > 0:
+            print("here")
+            ser.timeout = 1  # Timeout after 1 second
+            raw_data = ser.readline()
+            print("Raw data:", raw_data)
+            try:
+                mode = raw_data.decode('utf-8').strip()
+            except UnicodeDecodeError as e:
+                print("Decode error:", e)
+                mode = None
             mode = ser.readline().decode().strip()  # Read the value from the serial input
+
+            print(mode)
             
             if mode == "1":
                 print("Button 1 Pressed: Running Audio Detection")

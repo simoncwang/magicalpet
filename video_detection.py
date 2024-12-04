@@ -1,7 +1,6 @@
 import cv2
 from video_helper import *
 
-
 # using MTCNN (multi task cascaded CNN)
 # MTCNN detects faces and facial landmarks on images
 emotion_detector = FER(mtcnn=True)  
@@ -11,6 +10,8 @@ last_emotion_data = {"emotion": "neutral", "last_update": time.time()}
 
 # continuously capturing webcam feed until user presses esc
 cam = cv2.VideoCapture(0)  # Use 0 for the default camera
+
+# 0 (for me) to capture from external webcam, 2 for grace
 
 if not cam.isOpened():
     print("Error: Could not open webcam.")

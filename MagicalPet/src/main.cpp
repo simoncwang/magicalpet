@@ -34,6 +34,7 @@ void stopMotor();
 void displayRainbow();
 void displayRed();
 void clearLEDs();
+void spin();
 
 void setup() {
   Serial.begin(9600);
@@ -80,6 +81,9 @@ void loop() {
       displayRainbow();            // Display rainbow animation
       moveForward();
       delay(5000);
+      stopMotor();
+      spin();
+      delay(3000);
       stopMotor();
       right_open();
       delay(7000);
@@ -165,6 +169,15 @@ void angle(int a) {
   digitalWrite(servoPin, LOW);
   delayMicroseconds(20000-pulseWidth);
 
+}
+
+// Function to spin
+void spin() {
+  digitalWrite(motorPin1, LOW);
+  digitalWrite(motorPin2, HIGH);
+  digitalWrite(motorPin3, LOW);
+  digitalWrite(motorPin4, HIGH);
+  Serial.println("Spinning");
 }
 
 // Function to move motor forward
