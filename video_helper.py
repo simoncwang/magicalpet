@@ -51,10 +51,10 @@ def displayAnalysis(img, emotion_detector, last_emotion_data):
             last_emotion_data["emotion"] = dominant_emotion
             last_emotion_data["last_update"] = time.time()
 
-            if dominant_emotion == "happy":
+            if dominant_emotion == "happy" or dominant_emotion == "neutral":
                 print("Happy")
                 arduino.write(str.encode('0'))
-            elif dominant_emotion != "neutral":
+            else:
                 print("Sad")
                 arduino.write(str.encode('1'))
 

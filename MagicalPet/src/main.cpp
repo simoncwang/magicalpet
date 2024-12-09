@@ -34,7 +34,8 @@ void stopMotor();
 void displayRainbow();
 void displayRed();
 void clearLEDs();
-void spin();
+void spin1();
+void spin2();
 
 void setup() {
   Serial.begin(9600);
@@ -82,12 +83,14 @@ void loop() {
       moveForward();
       delay(5000);
       stopMotor();
-      spin();
+      spin1();
       delay(3000);
+      spin2();
+      delay(1500);
       stopMotor();
-      right_open();
+      left_open();
       delay(7000);
-      right_close();
+      left_close();
       moveBackward();
       delay(5000);
       stopMotor();
@@ -98,9 +101,9 @@ void loop() {
       moveBackward();
       delay(5000);
       stopMotor();
-      left_open();
+      right_open();
       delay(7000);
-      left_close();
+      right_close();
       moveForward();
       delay(5000);
       stopMotor();
@@ -172,12 +175,21 @@ void angle(int a) {
 }
 
 // Function to spin
-void spin() {
+void spin1() {
   digitalWrite(motorPin1, LOW);
   digitalWrite(motorPin2, HIGH);
   digitalWrite(motorPin3, LOW);
-  digitalWrite(motorPin4, HIGH);
-  Serial.println("Spinning");
+  digitalWrite(motorPin4, LOW);
+  Serial.println("Spinning 1");
+}
+
+// Function to spin
+void spin2() {
+  digitalWrite(motorPin1, LOW);
+  digitalWrite(motorPin2, LOW);
+  digitalWrite(motorPin3, HIGH);
+  digitalWrite(motorPin4, LOW);
+  Serial.println("Spinning 2");
 }
 
 // Function to move motor forward

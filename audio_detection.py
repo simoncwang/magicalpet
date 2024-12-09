@@ -16,7 +16,7 @@ load_dotenv()
 api_key = os.getenv('API_KEY')
 
 fs = 44100  # Sample rate
-seconds = 3  # Duration of recording
+seconds = 10  # Duration of recording
 
 # initialize the serial port for the Arduino based on the operating system
 if platform.system() == "Darwin":  # macOS
@@ -36,6 +36,8 @@ transcription = client.audio.transcriptions.create(
   file=audio_file, 
   response_format="text"
 )
+
+print(transcription)
 
 completion = client.chat.completions.create(
   model="gpt-4o",
